@@ -37,23 +37,20 @@ public class SplashActivity extends AppCompatActivity {
         binding.videoView.setVideoPath(path);
         binding.videoView.setOnPreparedListener(mediaPlayer -> binding.videoView.start());
 
-        binding.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
+        binding.videoView.setOnCompletionListener(mediaPlayer -> {
 
-                String session = preferences.getSession(SplashActivity.this);
+            String session = preferences.getSession(SplashActivity.this);
 
-                if (session.equals(Tags.session_login))
-                {
-                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else
-                {
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+            if (session.equals(Tags.session_login))
+            {
+                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }else
+            {
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

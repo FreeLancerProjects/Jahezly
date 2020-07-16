@@ -75,4 +75,5 @@
     <string name="orders">الطلبات</string>
     <string name="change_language">تغيير اللغة</string>
     <string name="order_details">تفاصيل الطلب</string>
+    <string name="user_pas_not_correct">إسم المستخدم او كلمة المرور غير صحيحة</string>
 </resources>

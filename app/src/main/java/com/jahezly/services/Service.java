@@ -1,6 +1,7 @@
 package com.jahezly.services;
 
 
+import com.jahezly.models.UserModel;
 
 import java.util.List;
 
@@ -19,6 +20,30 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface Service {
+
+    @FormUrlEncoded
+    @POST("api/login-restaurant")
+    Call<UserModel> login(@Field("user_name") String user_name,
+                          @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("api/logout-restaurant")
+    Call<ResponseBody> logout(@Header("Authorization") String token,
+                              @Field("phone_token") String firebase_token,
+                              @Field("soft_type") String soft_type,
+                              @Field("user_id") int user_id
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/update-firebase")
+    Call<ResponseBody> updateFirebaseToken(@Header("Authorization") String token,
+                                           @Field("phone_token") String firebase_token,
+                                           @Field("soft_type") String soft_type,
+                                           @Field("user_type") String user_type,
+                                           @Field("user_id") int user_id
+    );
 
 
 }

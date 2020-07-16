@@ -74,4 +74,5 @@
     <string name="orders">Orders</string>
     <string name="change_language">Change Language</string>
     <string name="order_details">Order details</string>
+    <string name="user_pas_not_correct">Username or password incorrect</string>
 </resources>
