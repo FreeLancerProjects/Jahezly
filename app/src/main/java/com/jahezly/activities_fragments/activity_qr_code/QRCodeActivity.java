@@ -18,8 +18,15 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import com.google.zxing.Result;
 import com.jahezly.R;
+import com.jahezly.activities_fragments.activity_order_details.OrderDetailsActivity;
 import com.jahezly.databinding.ActivityQrcodeBinding;
 import com.jahezly.language.Language;
+import com.jahezly.models.OrderModel;
+import com.jahezly.models.UserModel;
+import com.jahezly.preferences.Preferences;
+import com.jahezly.remote.Api;
+import com.jahezly.share.Common;
+import com.jahezly.tags.Tags;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -35,6 +42,8 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     private final int CAMERA_REQ = 1022;
     private final String camera_perm = Manifest.permission.CAMERA;
     private ActivityQrcodeBinding binding;
+    private Preferences preferences;
+    private UserModel userModel;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -47,6 +56,8 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_qrcode);
         binding.scannerView.setFormats(ZXingScannerView.ALL_FORMATS);
         binding.scannerView.setResultHandler(this);
@@ -71,9 +82,73 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
     private void scanCode(String code)
     {
-
-
+        getOrder(code);
     }
+
+    private void getOrder(String code){
+        try {
+            ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+            dialog.show();
+
+            Api.getService(Tags.base_url)
+                    .getOrderByCode(userModel.getRestaurant().getToken(),code)
+                    .enqueue(new Callback<OrderModel>() {
+                        @Override
+                        public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful() && response.body() != null ) {
+                                OrderModel orderModel = response.body();
+                                Intent intent = new Intent(QRCodeActivity.this, OrderDetailsActivity.class);
+                                intent.putExtra("data",orderModel);
+                                startActivity(intent);
+                                finish();
+
+                            } else {
+                                dialog.dismiss();
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(QRCodeActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }else if (response.code()==404){
+                                    Toast.makeText(QRCodeActivity.this, R.string.code_not_found, Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(QRCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error", response.code() + "_" + response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<OrderModel> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+
+
+                                if (t.getMessage() != null) {
+                                    Log.e("error", t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                        Toast.makeText(QRCodeActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(QRCodeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            } catch (Exception e) {
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+
+        }
+    }
+
 
 
     @Override

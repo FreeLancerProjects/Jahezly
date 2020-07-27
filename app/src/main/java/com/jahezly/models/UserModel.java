@@ -23,6 +23,7 @@ public class UserModel implements Serializable {
         private String email;
         private String phone_code;
         private String phone;
+        private String parent;
         private String logo;
         private String banner;
         private String rating;
@@ -162,6 +163,10 @@ public class UserModel implements Serializable {
 
         public String getDetails() {
             return details;
+        }
+
+        public String getParent() {
+            return parent;
         }
 
         public String getFirebase_token() {

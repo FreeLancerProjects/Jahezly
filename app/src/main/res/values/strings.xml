@@ -75,4 +75,16 @@
     <string name="change_language">Change Language</string>
     <string name="order_details">Order details</string>
     <string name="user_pas_not_correct">Username or password incorrect</string>
+    <string name="client_name">Client name</string>
+    <string name="order_num">Order num</string>
+    <string name="sar">SAR</string>
+    <string name="no_order_to_show">No order to show</string>
+    <string name="amount">Amount</string>
+    <string name="drinks">Drinks</string>
+    <string name="no_drinks">No Drinks</string>
+    <string name="additions">Additions</string>
+    <string name="no_search_results">No search results</string>
+    <string name="order_number">Order number....</string>
+    <string name="code_not_found">Code not found</string>
+    <string name="back">Back</string>
 </resources>

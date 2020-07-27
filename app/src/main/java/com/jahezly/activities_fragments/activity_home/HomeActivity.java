@@ -26,6 +26,7 @@ import com.jahezly.activities_fragments.activity_home.fragments.Fragment_Late;
 import com.jahezly.activities_fragments.activity_login.LoginActivity;
 import com.jahezly.activities_fragments.activity_qr_code.QRCodeActivity;
 import com.jahezly.activities_fragments.activity_reserve_order.ReserveOrderActivity;
+import com.jahezly.activities_fragments.activity_search.SearchActivity;
 import com.jahezly.adapters.MyPagerFragmentsAdapter;
 import com.jahezly.databinding.ActivityHomeBinding;
 import com.jahezly.databinding.DialogLanguageBinding;
@@ -77,6 +78,8 @@ public class HomeActivity extends AppCompatActivity {
         adapter = new MyPagerFragmentsAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         adapter.createFragments_titles(getTitles(),getFragments());
         binding.pager.setAdapter(adapter);
+        binding.pager.setOffscreenPageLimit(3);
+
 
         binding.tvAddOrder.setOnClickListener(v -> {
             Intent intent = new Intent(this, ReserveOrderActivity.class);
@@ -89,12 +92,18 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
+
         binding.imageLogout.setOnClickListener(v -> {
             if (userModel!=null){
                 logout();
             }else {
                 navigateToSignInActivity();
             }
+        });
+
+        binding.llSearch.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
         });
 
 

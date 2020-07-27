@@ -168,8 +168,10 @@
                     android:src="@drawable/ic_search"
                     android:tint="@color/white"
                     android:padding="8dp"
+                    android:clickable="false"
+                    android:longClickable="false"
                     />
-                <EditText
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/transparent"
@@ -180,6 +182,9 @@
                     android:textColor="@color/black"
                     android:singleLine="true"
                     android:hint="@string/search"
+                    android:gravity="center_vertical"
+                    android:clickable="false"
+                    android:longClickable="false"
                     />
             </LinearLayout>
 

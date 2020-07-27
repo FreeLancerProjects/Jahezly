@@ -1,6 +1,9 @@
 package com.jahezly.services;
 
 
+import com.jahezly.models.CreateOrderModel;
+import com.jahezly.models.OrderDataModel;
+import com.jahezly.models.OrderModel;
 import com.jahezly.models.UserModel;
 
 import java.util.List;
@@ -43,6 +46,41 @@ public interface Service {
                                            @Field("soft_type") String soft_type,
                                            @Field("user_type") String user_type,
                                            @Field("user_id") int user_id
+    );
+
+    @POST("api/fast-order")
+    Call<OrderModel> createOrder(@Header("Authorization") String token,
+                                 @Body CreateOrderModel createOrderModel
+    );
+
+
+    @GET("api/resturant-orders")
+    Call<OrderDataModel> getOrders(@Header("Authorization") String user_token,
+                                   @Query("id") String user_id,
+                                   @Query("pagination") String pagination,
+                                   @Query("order_status") String order_status,
+                                   @Query("page") int page,
+                                   @Query("limit_per_page") int limit_per_page
+    );
+
+    @GET("api/one-order")
+    Call<OrderModel> getOrdersById(@Header("Authorization") String user_token,
+                                   @Query("order_id") String order_id
+
+    );
+
+
+    @GET("api/search-order")
+    Call<OrderDataModel> search(@Header("Authorization") String user_token,
+                                @Query("order_id") String order_id
+
+    );
+
+
+    @GET("api/get-order-by-code")
+    Call<OrderModel> getOrderByCode(@Header("Authorization") String user_token,
+                                    @Query("code") String code
+
     );
 
 

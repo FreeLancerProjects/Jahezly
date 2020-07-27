@@ -81,7 +81,7 @@ public class AddOrderModel extends BaseObservable implements Serializable {
         setDate("");
         setFormatTime("");
         setChildrenNumber(0);
-        setInside_outside("inside");
+        setInside_outside("in");
         setPeopleNumber(1);
     }
 

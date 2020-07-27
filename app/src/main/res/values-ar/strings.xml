@@ -76,4 +76,16 @@
     <string name="change_language">تغيير اللغة</string>
     <string name="order_details">تفاصيل الطلب</string>
     <string name="user_pas_not_correct">إسم المستخدم او كلمة المرور غير صحيحة</string>
+    <string name="client_name">إسم العميل</string>
+    <string name="order_num">رقم الحجز</string>
+    <string name="sar">ر.س</string>
+    <string name="no_order_to_show">لا توجد طلبات لعرضها</string>
+    <string name="amount">الكمية</string>
+    <string name="drinks">المشروبات</string>
+    <string name="no_drinks">لا يوجد مشروبات</string>
+    <string name="additions">إضافات</string>
+    <string name="no_search_results">لا توجد نتائج بحث</string>
+    <string name="order_number">رقم الطلب....</string>
+    <string name="code_not_found">الكود غير موجود</string>
+    <string name="back">رجوع</string>
 </resources>
