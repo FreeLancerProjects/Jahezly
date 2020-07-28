@@ -37,7 +37,11 @@
         <activity
             android:name=".activities_fragments.activity_home.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            />
         <activity
             android:name=".activities_fragments.activity_login.LoginActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

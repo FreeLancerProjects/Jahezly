@@ -23,6 +23,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.jahezly.R;
+import com.jahezly.activities_fragments.activity_home.HomeActivity;
 import com.jahezly.models.NotFireModel;
 import com.jahezly.models.UserModel;
 import com.jahezly.preferences.Preferences;
@@ -91,49 +92,53 @@ public class FireBaseMessaging extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void createNewNotificationVersion(Map<String, String> map) {
 
-        String not_type = map.get("notification_type");
+        String sound_Path = "android.resource://" + getPackageName() + "/" + R.raw.not;
 
-        if (not_type.equals("action_note")) {
-            String sound_Path = "android.resource://" + getPackageName() + "/" + R.raw.not;
-
-            String title = map.get("title");
-            String body = map.get("message");
-
-            final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            String CHANNEL_ID = "my_channel_02";
-            CharSequence CHANNEL_NAME = "my_channel_name";
-            int IMPORTANCE = NotificationManager.IMPORTANCE_HIGH;
-
-            final NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
-
-            channel.setShowBadge(true);
-            channel.setSound(Uri.parse(sound_Path), new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
-                    .setLegacyStreamType(AudioManager.STREAM_NOTIFICATION)
-                    .build()
-            );
-            builder.setChannelId(CHANNEL_ID);
-            builder.setSound(Uri.parse(sound_Path), AudioManager.STREAM_NOTIFICATION);
-            builder.setSmallIcon(R.mipmap.ic_launcher_round);
-
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round);
-            builder.setLargeIcon(bitmap);
-
-            builder.setContentTitle(title);
-            builder.setContentText(body);
-            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(body));
+        String title = map.get("title");
+        String body = map.get("body");
+        String not_type = map.get("note_type");
 
 
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            if (manager != null) {
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        String CHANNEL_ID = "my_channel_02";
+        CharSequence CHANNEL_NAME = "my_channel_name";
+        int IMPORTANCE = NotificationManager.IMPORTANCE_HIGH;
 
-                manager.createNotificationChannel(channel);
-                manager.notify(Tags.not_tag, Tags.not_id, builder.build());
+        final NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
 
-                EventBus.getDefault().post(new NotFireModel(true));
+        channel.setShowBadge(true);
+        channel.setSound(Uri.parse(sound_Path), new AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
+                .setLegacyStreamType(AudioManager.STREAM_NOTIFICATION)
+                .build()
+        );
+        builder.setChannelId(CHANNEL_ID);
+        builder.setSound(Uri.parse(sound_Path), AudioManager.STREAM_NOTIFICATION);
+        builder.setSmallIcon(R.mipmap.ic_launcher_round);
 
-            }
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round);
+        builder.setLargeIcon(bitmap);
+
+        builder.setContentTitle(title);
+        builder.setContentText(body);
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(body));
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+        taskStackBuilder.addNextIntent(intent);
+        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+
+
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (manager != null) {
+
+            manager.createNotificationChannel(channel);
+            manager.notify(Tags.not_tag, Tags.not_id, builder.build());
+
+            EventBus.getDefault().post(new NotFireModel(true));
 
         }
 
@@ -142,36 +147,42 @@ public class FireBaseMessaging extends FirebaseMessagingService {
 
     private void createOldNotificationVersion(Map<String, String> map) {
 
-        String not_type = map.get("notification_type");
-
-        if (not_type.equals("action_note")) {
-            String sound_Path = "android.resource://" + getPackageName() + "/" + R.raw.not;
-
-            String title = map.get("title");
-            String body = map.get("message");
+        String sound_Path = "android.resource://" + getPackageName() + "/" + R.raw.not;
 
 
-            final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        String title = map.get("title");
+        String body = map.get("body");
+        String not_type = map.get("note_type");
 
 
-            builder.setSound(Uri.parse(sound_Path), AudioManager.STREAM_NOTIFICATION);
-            builder.setSmallIcon(R.mipmap.ic_launcher_round);
-
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round);
-            builder.setLargeIcon(bitmap);
-
-            builder.setContentTitle(title);
-            builder.setContentText(body);
-            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(body));
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
 
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            if (manager != null) {
-                manager.notify(Tags.not_tag, Tags.not_id, builder.build());
-                EventBus.getDefault().post(new NotFireModel(true));
+        builder.setSound(Uri.parse(sound_Path), AudioManager.STREAM_NOTIFICATION);
+        builder.setSmallIcon(R.mipmap.ic_launcher_round);
 
-            }
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round);
+        builder.setLargeIcon(bitmap);
+
+        builder.setContentTitle(title);
+        builder.setContentText(body);
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(body));
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+        taskStackBuilder.addNextIntent(intent);
+
+        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (manager != null) {
+            manager.notify(Tags.not_tag, Tags.not_id, builder.build());
+            EventBus.getDefault().post(new NotFireModel(true));
+
         }
+
 
 
     }
