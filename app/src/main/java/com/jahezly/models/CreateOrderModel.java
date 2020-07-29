@@ -8,7 +8,6 @@ public class CreateOrderModel implements Serializable {
     private String client_phone;
     private String number_of_person;
     private String number_of_child;
-    private String parent;
     private String details;
     private String order_date;
     private String order_time;
@@ -16,13 +15,12 @@ public class CreateOrderModel implements Serializable {
     private String session_type;
 
 
-    public CreateOrderModel(String id, String client_name, String client_phone, String number_of_person, String number_of_child, String parent, String details, String order_date, String order_time, String session_place, String session_type) {
+    public CreateOrderModel(String id, String client_name, String client_phone, String number_of_person, String number_of_child, String details, String order_date, String order_time, String session_place, String session_type) {
         this.id = id;
         this.client_name = client_name;
         this.client_phone = client_phone;
         this.number_of_person = number_of_person;
         this.number_of_child = number_of_child;
-        this.parent = parent;
         this.details = details;
         this.order_date = order_date;
         this.order_time = order_time;
@@ -70,13 +68,6 @@ public class CreateOrderModel implements Serializable {
         this.number_of_child = number_of_child;
     }
 
-    public String getParent() {
-        return parent;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
-    }
 
     public String getDetails() {
         return details;

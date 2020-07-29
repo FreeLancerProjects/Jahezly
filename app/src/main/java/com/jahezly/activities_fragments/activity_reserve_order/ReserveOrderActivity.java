@@ -145,7 +145,7 @@ public class ReserveOrderActivity extends AppCompatActivity implements DatePicke
     private void sendOrder() {
         ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
         dialog.show();
-        CreateOrderModel createOrderModel = new CreateOrderModel(String.valueOf(userModel.getRestaurant().getId()),model.getName(),model.getPhone(),String.valueOf(model.getPeopleNumber()),String.valueOf(model.getChildrenNumber()),String.valueOf(userModel.getRestaurant().getParent()),"",model.getDate(),model.getFormatTime(),model.getInside_outside(),model.getType());
+        CreateOrderModel createOrderModel = new CreateOrderModel(String.valueOf(userModel.getRestaurant().getId()),model.getName(),model.getPhone(),String.valueOf(model.getPeopleNumber()),String.valueOf(model.getChildrenNumber()),"",model.getDate(),model.getFormatTime(),model.getInside_outside(),model.getType());
         try {
 
 
